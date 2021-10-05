@@ -17,26 +17,26 @@ namespace Billing.Service
                 int[] denominations = { 50, 40, 20, 10, 2, 1 };
                 double value;
                 int lastVal = denominations.Last();
-                output = output + "Your Change is:\n";
+                output += "Your Change is:\n";
                 foreach (int item in denominations)
                 {
                     if (balanceAmount > item)
                     {
                         value = (int)balanceAmount / item;
-                        balanceAmount = balanceAmount % item;
-                        output = output + $"{value} x £{item}\n";
+                        balanceAmount %= item;
+                        output += $"{value} x £{item}\n";
                     }
 
                     if (lastVal == item && balanceAmount != 0)
                     {
-                        output = output + $"1 x {string.Format("{0:f2}", balanceAmount).Remove(0, 2)}p\n";
+                        output += $"1 x {string.Format("{0:f2}", balanceAmount).Remove(0, 2)}p\n";
                     }
                 }
                 issuccess = true;
             }
             else
             {
-                output = output + "Please provide a valid CustomerAmount...";
+                output += "Please provide a valid CustomerAmount...";
                 issuccess = false;
             }
             return (output, issuccess);

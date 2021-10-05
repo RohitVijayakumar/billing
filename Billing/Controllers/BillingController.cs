@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Billing.Model;
 
 namespace Billing.Controllers
 {
@@ -14,25 +15,23 @@ namespace Billing.Controllers
     public class BillingController : ControllerBase
     {
         public readonly IService _service;
-
-        public class ResultModel
-        {
-            public string output { get; set; }
-            public string success { get; set; }
-        }
+        
         public BillingController(IService service)
         {
             _service = service;
         }
 
+
+        #region Get
+
         [HttpGet("GetBalance")]
-        public ResultModel GetBalance([FromQuery]InputData input)
+        public ResultModel GetBalance([FromQuery] InputData input)
         {
             var result = _service.GetBalance(input);
             var response = new ResultModel()
             {
-                output = result.output,
-                success = result.issuccess ? "S_200" : "EX_200"
+                Output = result.output,
+                Success = result.issuccess ? "S_200" : "EX_200"
             };
             return response;
         }
@@ -43,5 +42,7 @@ namespace Billing.Controllers
             var result = _service.GetBalance(input);
             return Content(result.output);
         }
+
+        #endregion
     }
 }
