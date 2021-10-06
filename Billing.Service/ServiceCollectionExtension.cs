@@ -1,5 +1,4 @@
-﻿using Billing.Data;
-using Billing.Service.Interfaces;
+﻿using Billing.Service.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -14,7 +13,6 @@ namespace Billing.Service
         public static IServiceCollection AddBillingServices(this IServiceCollection services)
         {
             services.AddTransient<IService, Service>();
-            services.AddBillingDataServices();
             return services;
         }
     }
