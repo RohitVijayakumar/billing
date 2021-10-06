@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Billing.Service.InputDTO
+namespace Billing.Models
 {
     public class InputData
     {

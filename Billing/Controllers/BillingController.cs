@@ -1,12 +1,12 @@
-﻿using Billing.Service.InputDTO;
-using Billing.Service.Interfaces;
+﻿using Billing.Service.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Billing.Model;
+using Microsoft.Extensions.Configuration;
+using Billing.Models;
 
 namespace Billing.Controllers
 {
@@ -15,12 +15,10 @@ namespace Billing.Controllers
     public class BillingController : ControllerBase
     {
         public readonly IService _service;
-        
         public BillingController(IService service)
         {
             _service = service;
         }
-
 
         #region Get
 

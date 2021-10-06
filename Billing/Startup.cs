@@ -1,3 +1,4 @@
+using Billing.Models;
 using Billing.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
@@ -33,7 +35,13 @@ namespace Billing
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Billing", Version = "v1" });
             });
-            services.AddBillingServices();            
+            services.AddBillingServices();
+            Action<DenominationsData> mduOptions = (opt =>
+            {
+                opt.Value = Configuration["DenominationsData"];
+            });
+            services.Configure(mduOptions);
+            services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<DenominationsData>>().Value);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

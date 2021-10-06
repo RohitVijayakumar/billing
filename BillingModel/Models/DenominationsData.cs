@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Billing.Models
 {
-    public class ResultModel
+    public class DenominationsData
     {
-        public string Output { get; set; }
-        public string Success { get; set; }
+        public string Value { get; set; }
     }
 }
