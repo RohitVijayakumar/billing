@@ -38,7 +38,9 @@ namespace Billing
             services.AddBillingServices();
             Action<DenominationsData> mduOptions = (opt =>
             {
-                opt.Value = Configuration["DenominationsData"];
+                opt.PoundValue = Configuration["DenominationsDataPound"];
+                opt.PenceValue = Configuration["DenominationsDataPence"];
+                opt.SymbolValue = Configuration["CurrencySymbol"];
             });
             services.Configure(mduOptions);
             services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<DenominationsData>>().Value);

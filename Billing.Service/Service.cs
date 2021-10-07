@@ -13,46 +13,48 @@ namespace Billing.Service
 {
     public class Service : IService
     {
-        private static string _appData;
+        private static DenominationsData _appData;
 
         public Service(DenominationsData options)
         {
-            _appData = options.Value;
+            _appData = options;
         }
         public (string output, bool issuccess) GetBalance(InputData input)
         {
             string output = "";
             bool issuccess = false;
-            List<int> denominations = new();
-            if (!string.IsNullOrEmpty(_appData))
+            List<int> denominationsPound = new();
+            List<int> denominationsPence = new();
+            char currencySymbol = (char)ushort.Parse(_appData.SymbolValue, System.Globalization.NumberStyles.HexNumber);
+            if (!string.IsNullOrEmpty(_appData.PoundValue) && !string.IsNullOrEmpty(_appData.PenceValue))
             {
-              denominations = _appData.Split(',').Select(n => Convert.ToInt32(n)).ToList();
+                denominationsPound = _appData.PoundValue.Split(',').Select(n => Convert.ToInt32(n)).ToList();
+                denominationsPence = _appData.PenceValue.Split(',').Select(n => Convert.ToInt32(n)).ToList();
             }
-            if (denominations.Count > 0)
+            if (denominationsPound.Count > 0 && denominationsPence.Count > 0)
             {                
-                if (input.CustomerAmount != 0.00 && input.ProductPrice != 0.00)
+                if (input.CustomerAmount != 0 && input.ProductPrice != 0)
                 {
                     double balanceAmount = input.CustomerAmount >= input.ProductPrice ?
-                    (input.CustomerAmount - input.ProductPrice) : 0.00;
+                    (input.CustomerAmount - input.ProductPrice) : 0;
                     if (balanceAmount > 0)
                     {
-
                         double valuePound;
                         double valuePence;
-                        int lastVal = denominations.Last();
+                        int lastVal = denominationsPound.Last();
                         output += "Your Change is:\n";
-                        foreach (int item in denominations)
+                        foreach (int item in denominationsPound)
                         {
                             if (balanceAmount >= item)
                             {
                                 valuePound = (int)balanceAmount / item;
                                 balanceAmount %= item;
-                                output += $"{valuePound} x £{item}\n";
+                                output += $"{valuePound} x {currencySymbol}{item}\n";
                             }
                             if (lastVal == item && balanceAmount != 0)
                             {
                                 double amount = Convert.ToInt32(string.Format("{0:f2}", balanceAmount).Remove(0, 2));
-                                foreach (int item2 in denominations)
+                                foreach (int item2 in denominationsPence)
                                 {
                                     if (amount >= item2)
                                     {
@@ -67,33 +69,33 @@ namespace Billing.Service
                     }
                     else if (input.CustomerAmount < input.ProductPrice)
                     {
-                        output += "Please provide appropriate amount...";
+                        output += "Customer Amount is not sufficient, Please enter amount higher or same as the product price...";
                         issuccess = false;
                     }
                     else if (input.CustomerAmount == input.ProductPrice)
                     {
-                        output += "No Change , Given the correct amount.";
+                        output += "Customer amount is same as the product price , No change to display...";
                         issuccess = false;
                     }
                 }
-                else if (input.CustomerAmount == 0.00 && input.ProductPrice != 0.00)
+                else if (input.CustomerAmount == 0 && input.ProductPrice != 0)
                 {
-                    output += "Customer amount is zero";
+                    output += "Customer entered amount is zero , Please enter a valid customer amount...";
                     issuccess = false;
                 }
-                else if (input.ProductPrice == 0.00 && input.CustomerAmount != 0.00)
+                else if (input.ProductPrice == 0 && input.CustomerAmount != 0)
                 {
-                    output += "Product price is zero";
+                    output += "Product price entered is zero , Please enter a valid product price...";
                     issuccess = false;
                 }
                 else
                 {
-                    output += "Product price and customer amount zero";
+                    output += "Product price and customer amount entered are zero , Please enter values greater than zero...";
                     issuccess = false;
                 }
             }else
             {
-                output += "Denominations Empty";
+                output += "Denominations configurations is empty";
                 issuccess = false;
             }
             
