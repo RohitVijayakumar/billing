@@ -22,6 +22,11 @@ namespace Billing.Controllers
 
         #region Get
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="input"> Input details - customer amount and prduct price</param>
+        /// <returns>Balance denominations or any error messages</returns>
         [HttpGet("GetBalance")]
         public ResultModel GetBalance([FromQuery] InputData input)
         {
@@ -34,6 +39,11 @@ namespace Billing.Controllers
             return response;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="input">Input details - customer amount and prduct price</param>
+        /// <returns>Balance denominations or any error messages</returns>
         [HttpGet("GetBalanceinFormatedtext")]
         public ContentResult GetBalanceinFormatedtext([FromQuery] InputData input)
         {
