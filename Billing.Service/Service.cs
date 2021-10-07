@@ -26,13 +26,13 @@ namespace Billing.Service
             List<int> denominationsPound = new();
             List<int> denominationsPence = new();
             char currencySymbol = (char)ushort.Parse(_appData.SymbolValue, System.Globalization.NumberStyles.HexNumber);
-            if (!string.IsNullOrEmpty(_appData.PoundValue) && !string.IsNullOrEmpty(_appData.PenceValue))
+            if (_appData.PoundValue != null && _appData.PenceValue != null)
             {
-                denominationsPound = _appData.PoundValue.Split(',').Select(n => Convert.ToInt32(n)).ToList();
-                denominationsPence = _appData.PenceValue.Split(',').Select(n => Convert.ToInt32(n)).ToList();
+                denominationsPound = _appData.PoundValue;
+                denominationsPence = _appData.PenceValue;
             }
             if (denominationsPound.Count > 0 && denominationsPence.Count > 0)
-            {                
+            {
                 if (input.CustomerAmount != 0 && input.ProductPrice != 0)
                 {
                     double balanceAmount = input.CustomerAmount >= input.ProductPrice ?
@@ -93,12 +93,13 @@ namespace Billing.Service
                     output += "Product price and customer amount entered are zero , Please enter values greater than zero...";
                     issuccess = false;
                 }
-            }else
+            }
+            else
             {
                 output += "Denominations configurations is empty";
                 issuccess = false;
             }
-            
+
 
             return (output, issuccess);
         }

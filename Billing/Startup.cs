@@ -38,8 +38,8 @@ namespace Billing
             services.AddBillingServices();
             Action<DenominationsData> mduOptions = (opt =>
             {
-                opt.PoundValue = Configuration["DenominationsDataPound"];
-                opt.PenceValue = Configuration["DenominationsDataPence"];
+                opt.PoundValue = Configuration.GetSection("DenominationsDataPound").Get<List<int>>();
+                opt.PenceValue = Configuration.GetSection("DenominationsDataPence").Get<List<int>>();
                 opt.SymbolValue = Configuration["CurrencySymbol"];
             });
             services.Configure(mduOptions);

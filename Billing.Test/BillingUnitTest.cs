@@ -1,12 +1,13 @@
 using Billing.Models;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Billing.Test
 {
     public class BillingUnitTest
     {
-        private readonly DenominationsData denominationdata = new() { PenceValue = "50, 20, 10, 5, 2, 1", PoundValue = "50, 20, 10, 5, 2, 1", SymbolValue = "00A3" };
+        private readonly DenominationsData denominationdata = new() { PenceValue = new List<int>(new int[] { 50, 20, 10, 5, 2, 1 }), PoundValue = new List<int>(new int[] { 50, 20, 10, 5, 2, 1 }), SymbolValue = "00A3" };
 
         [Fact]
         public void Task_is_ValidBilling()

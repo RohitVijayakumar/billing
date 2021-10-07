@@ -8,8 +8,8 @@ namespace Billing.Models
 {
     public class DenominationsData
     {
-        public string PoundValue { get; set; }
-        public string PenceValue { get; set; }
+        public List<int> PoundValue { get; set; }
+        public List<int> PenceValue { get; set; }
         public string SymbolValue { get; set; }
     }
 }
